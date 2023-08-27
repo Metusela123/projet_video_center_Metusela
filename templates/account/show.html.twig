@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AccountController!{% endblock %}
+
+{% block body %}
+<div class = "row">
+        <div class = "col-md-6 mx-auto text-center">
+            <h1>Profile</h1>
+            <img style="max-width: 250px;" src={{ vich_uploader_asset(app.user, 'imageFile') }}>
+            <p>{{ app.user.email }}</p>
+            <h2>{{ app.user.firstname ~" "~ app.user.lastname }}</h2>
+            <p>Account created on {{ app.user.createdAt|date }}</p>
+            <p>
+                <a href="{{ path ('app_account_edit') }}">Edit Account</a>
+            </p>
+        </div>
+    </div>
+    <div class = "container text-center">
+    <div class = "row">
+    <h3>Mes Vidéos</h3> 
+    {% for video in app.user.videos %} 
+            <article class = "col-4">
+            <h3><a href={{ path('app_video_show', {id: video.id}) }}>{{ video.title|u.truncate(30,'...',false) }}</a></h3>
+            {# <img src = {{ video.imageName }} width="150" height="200"> #}
+             {# <img style="max-width: 150px;" src={{ vich_uploader_asset(video, 'imageFile') }}> #}
+             <iframe width="300" height="200" src={{video.videoLink}}></iframe>
+            <h5>{{ video.description|u.truncate(15,'...',false) }}</h5>
+            <p>Submitted {{ video.createdAt|ago }}
+            <p>Dernière Modification: {{ video.updatedAt|date("d/m/y H:i") }}</p>
+            <p>By {{ video.user.firstname ~ ' ' ~ video.user.lastname }}
+            <p>
+            <a href="{{ path('app_video_show', {'id': video.id}) }}">Afficher</a>
+
+            <a href="{{ path('app_video_edit', {'id': video.id}) }}">Editer</a>
+            </p>
+            </article>
+
+    {% else %}
+        <p> Sorry, no video yet </p>
+    {% endfor %}
+    </div>
+    </div>
+{% endblock %} 
