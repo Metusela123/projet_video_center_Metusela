@@ -73,11 +73,11 @@ class VideoController extends AbstractController
     {
         if ($this->getUser()){
             if ($this->getUser()->isVerified() == false) {
-                $this->addFlash('error', 'Vous devez confirm your email to create video!');
+                $this->addFlash('error', 'Vous devez confirm your email pour créer une video!');
                 return $this->redirectToRoute('app_home');
             } 
         }else{
-            $this->addFlash('error', 'Vous devez login to create Vidéo!');
+            $this->addFlash('error', 'Vous devez vous loguer pour créer une Vidéo!');
             return $this->redirectToRoute('app_login');
         }
         $video = new Video();
@@ -88,7 +88,7 @@ class VideoController extends AbstractController
             $video->setUser($this->getUser());
             $em->persist($video);
             $em->flush();
-            $this->addFlash('success', 'Vidéo créee avec succes !');
+            $this->addFlash('success', 'Vidéo créée avec succes !');
             $videoRepository->save($video, true);
 
             return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
@@ -104,24 +104,35 @@ class VideoController extends AbstractController
     #[Route('/video/{id}', name: 'app_video_show', methods: ['GET'])]
     public function show(Video $video): Response
     {
+        if($video->isPremiumVideo()){
+        if ($this->getUser()) {
+            if ($this->getUser()->isVerified() == false) {
+                $this->addFlash('error', 'Vous devez confirmer votre email pour avoir accés aux vidéo premium');
+                return $this->redirectToRoute('app_home');
+            }
+        } else {
+            $this->addFlash('error', 'vous devez vous enregistrer pour avoir accés aux vidéo premium!');
+            return $this->redirectToRoute('app_register');
+        }
+    }
         return $this->render('video/show.html.twig', [
             'video' => $video,
         ]);
-    }
+}
 
     #[Route('/video/{id}/edit', name: 'app_video_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Video $video, VideoRepository $videoRepository): Response
     {
         if ($this->getUser()) {
             if ($this->getUser()->isVerified() == false) {
-                $this->addFlash('error', 'Vous devez confirmer votre email pour editer la video!');
+                $this->addFlash('error', 'Vous devez confirmer votre email pour éditer la video!');
                 return $this->redirectToRoute('app_home');
             } else if ($video->getUser()->getEmail() !== $this->getUser()->getEmail()) {
-                $this->addFlash('error', 'Vous devez etre utilisateur ' . $video->getUser()->getFirstname() . ' pour editer cette Voiture !');
+                $this->addFlash('error', 'Vous devez etre utilisateur ' . $video->getUser()->getFirstname() . ' pour éditer cette Voiture !');
                 return $this->redirectToRoute('app_home');
             }
         } else {
-            $this->addFlash('error', 'Vous devez vous logguer poure editer la Voiture!');
+            $this->addFlash('error', 'Vous devez vous logguer poure éditer la Voiture!');
             return $this->redirectToRoute('app_login');
         }
         $form = $this->createForm(VideoType::class, $video);
@@ -147,19 +158,18 @@ class VideoController extends AbstractController
                 $this->addFlash('error', 'Vous devez confirmer votre email pour supprimer la video!');
                 return $this->redirectToRoute('app_home');
             }else if ($video->getUser()->getEmail() !== $this->getUser()->getEmail()) {
-                $this->addFlash('error', 'Vous devez to be the user ' . $video->getUser()->getFirstname() . ' to delete this video !');
+                $this->addFlash('error', 'Vous devez etre utilisateur ' . $video->getUser()->getFirstname() . ' pour supprimer cette video !');
                 return $this->redirectToRoute('app_home');
             }
         } else {
-            $this->addFlash('error', 'Vous devez login to delete video!');
+            $this->addFlash('error', 'Vous devez vous loguer pour supprimer video!');
             return $this->redirectToRoute('app_login');
         }
         if ($this->isCsrfTokenValid('delete'.$video->getId(), $request->request->get('_token'))) {
             $videoRepository->remove($video, true);
        
         }
-        
-        $this->addFlash('info', 'video successfully deleted!');
+        $this->addFlash('info', 'vidéo supprimée avec succes');
 
         return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
     }

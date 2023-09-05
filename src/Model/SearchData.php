@@ -9,4 +9,8 @@ class SearchData
 
     /** @var string */
     public string $query = '';
+
+    public function getQuery(){
+        return $this->query;
+    }
 }

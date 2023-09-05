@@ -16,7 +16,7 @@ class AccountController extends AbstractController
     {
         if (!$this->getUser()){
 
-            $this->addFlash('error', 'You must login to see your profile!');
+            $this->addFlash('error', 'Vous devez etre connecté pour voir votre profile!');
             return $this->redirectToRoute('app_login');
         }
         return $this->render('account/show.html.twig', );
@@ -26,7 +26,7 @@ public function edit(Request $request, EntityManagerInterface $em): Response
 {
     if (!$this->getUser()){
 
-        $this->addFlash('error', 'You must login to edit your profile!');
+        $this->addFlash('error', 'Vous devez etre connecté pour éditer votre profile!');
         return $this->redirectToRoute('app_login');
     }
     $user = $this->getUser();
@@ -35,7 +35,7 @@ public function edit(Request $request, EntityManagerInterface $em): Response
 
     if ($form->isSubmitted() && $form->isValid()) {
         $em->flush();
-        $this->addFlash('success', 'Account successfuly updated !');
+        $this->addFlash('success', 'Votre profile a été édité avec succès !');
         return $this->redirectToRoute('app_account');
     }
     return $this->render('account/edit.html.twig', [

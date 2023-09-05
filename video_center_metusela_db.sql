@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : dim. 27 août 2023 à 19:52
+-- Généré le : mar. 05 sep. 2023 à 20:29
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.2.0
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `video_center_prenom_db`
+-- Base de données : `video_center_metusela_db`
 --
 
 -- --------------------------------------------------------
@@ -65,7 +65,14 @@ CREATE TABLE IF NOT EXISTS `reset_password_request` (
   `expires_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
   PRIMARY KEY (`id`),
   KEY `IDX_7CE748AA76ED395` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `reset_password_request`
+--
+
+INSERT INTO `reset_password_request` (`id`, `user_id`, `selector`, `hashed_token`, `requested_at`, `expires_at`) VALUES
+(1, 1, 'DGwnu0ZQBLo5VwS7gScu', 'pB47hrs/4kqdgwd/JfRVAzcR8QroUH7SSfX4jLrulTM=', '2023-09-05 21:58:30', '2023-09-05 22:58:30');
 
 -- --------------------------------------------------------
 
@@ -88,7 +95,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `image_size` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_1483A5E9E7927C74` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `users`
@@ -96,7 +103,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 INSERT INTO `users` (`id`, `email`, `roles`, `password`, `firstname`, `lastname`, `created_at`, `updated_at`, `is_verified`, `image_name`, `image_size`) VALUES
 (1, 'metuselandagijimana@gmail.com', '[]', '$2y$13$Yv18M7XuFk9GgtYHvjepQOEKCZUT0.o2Kiv4Lk5.kZ4Rv7F5FLo8m', 'NDAGIJIMANA', 'Metusela', '2023-08-25 00:09:00', '2023-08-25 00:09:00', 1, 'image3.jpg', NULL),
-(2, 'nihorimberejeanine4@gmail.com', '[]', '$2y$13$Rb2dWSzbbF8aXU3y6Q7Kbew.uOJVefTXj8DoS.l8cbsmsLkdiSpPm', 'NIHORIMBERE', 'Jeanine', '2023-08-25 00:16:32', '2023-08-25 00:16:32', 1, 'image3.jpg', NULL);
+(2, 'nihorimberejeanine4@gmail.com', '[]', '$2y$13$Rb2dWSzbbF8aXU3y6Q7Kbew.uOJVefTXj8DoS.l8cbsmsLkdiSpPm', 'NIHORIMBERE', 'Jeanine', '2023-08-25 00:16:32', '2023-08-25 00:16:32', 1, 'image3.jpg', NULL),
+(4, 'mutonielnissi@gmail.com', '[]', '$2y$13$pYAvzfvNE6.Zsq4xOPSN3e6X0m4jzZLxSAFxH64lajnml0gA4cT62', 'El Nissi', 'Mutoni', '2023-09-05 00:00:27', '2023-09-05 00:00:27', 0, 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg', NULL),
+(5, 'mugishaenhakkoree@gmail.com', '[]', '$2y$13$wOR3JLkeVxnLxGz8Emu11eLFUztkv6ziK2emmnYdX7Rwe8xwFv1pO', 'En Hakkorée', 'Mugisha', '2023-09-05 00:02:56', '2023-09-05 00:02:56', 1, 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg', NULL);
 
 -- --------------------------------------------------------
 
@@ -116,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `premium_video` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_29AA6432A76ED395` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `videos`
@@ -131,7 +140,6 @@ INSERT INTO `videos` (`id`, `title`, `video_link`, `description`, `created_at`, 
 (7, 'Je me rappelle', 'https://www.youtube.com/embed/MD3dNs6fJ3I', 'N\'ait jamais oublié de jésus', '2023-08-23 11:17:00', '2023-08-23 11:17:00', 1, 0),
 (8, 'Bon combat', 'https://www.youtube.com/embed/MtjUcCA5qJA', 'J\'ai combattu le bon combat', '2023-08-23 11:17:00', '2023-08-23 11:17:00', 2, 0),
 (9, 'Préducation', 'https://www.youtube.com/embed/65VzcSAFb5M', 'Par pasteur Munezero', '2023-08-27 20:34:17', '2023-08-27 20:34:17', 1, 1),
-(10, 'Evengelisation', 'https://www.youtube.com/embed/3OM8wW6VQkE&t=2659s', 'Par Pasteur Prosper', '2023-08-27 20:36:32', '2023-08-27 20:36:32', 1, 1),
 (11, 'comedy', 'https://www.youtube.com/embed/XqfR4wP4f3g', 'Comédien Papa sava', '2023-08-27 20:39:25', '2023-08-27 20:39:25', 1, 1),
 (12, 'Témoignage', 'https://www.youtube.com/embed/M6YD_3kxf6U', 'Témoignage de Théogene', '2023-08-27 20:43:23', '2023-08-27 20:43:23', 2, 1),
 (13, 'Cantique', 'https://www.youtube.com/embed/4RjmtL7nmw0', 'Cantique  orginal', '2023-08-27 20:46:55', '2023-08-27 20:46:55', 2, 1),
@@ -140,7 +148,11 @@ INSERT INTO `videos` (`id`, `title`, `video_link`, `description`, `created_at`, 
 (16, 'Adoration', 'https://www.youtube.com/embed/3ZtPFP3Yjnw', 'Choral Nyakabiga', '2023-08-27 20:55:24', '2023-08-27 20:55:24', 1, 0),
 (18, 'SHALOM', 'https://www.youtube.com/embed/UWhViPQz2zI', 'URAVUGA BIKABA BY SHALOM', '2023-08-27 21:00:06', '2023-08-27 21:00:06', 2, 0),
 (19, 'ELAYONO', 'https://www.youtube.com/embed/mAK9E4dewSg', 'IMIRIMO BY ELAYONO CHOIR', '2023-08-27 21:03:37', '2023-08-27 21:03:37', 2, 0),
-(20, 'URATASHYE', 'https://www.youtube.com/embed/mpGiTgS4Pds', 'URATASHYE BY ELAYONO CHOI', '2023-08-27 21:06:01', '2023-08-27 21:06:01', 2, 0);
+(20, 'URATASHYE', 'https://www.youtube.com/embed/mpGiTgS4Pds', 'URATASHYE BY ELAYONO CHOI', '2023-08-27 21:06:01', '2023-08-27 21:06:01', 2, 0),
+(21, 'Le sage', 'https://www.youtube.com/embed/Jku92I4JnHg', 'chorale senga', '2023-09-05 00:11:05', '2023-09-05 00:11:05', 5, 1),
+(22, 'imburi', 'https://www.youtube.com/watch?v=Vy5WK6xux9Y', 'chorale umuco', '2023-09-05 00:13:32', '2023-09-05 00:13:32', 5, 1),
+(23, 'Les croyants', 'https://www.youtube.com/embed/h_0E6nq6sC8', 'chorale UGL', '2023-09-05 00:16:36', '2023-09-05 00:16:36', 5, 1),
+(24, 'Attend l\'Eternel', 'https://www.youtube.com/embed/6cePrK5y30k', 'chorale Nyakabiga', '2023-09-05 00:38:13', '2023-09-05 00:38:13', 5, 1);
 
 --
 -- Contraintes pour les tables déchargées

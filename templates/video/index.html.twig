@@ -4,21 +4,64 @@
 {% endblock %}
 
 {% block body %}
+{% if app.user %}
+{% if app.user.isVerified %} 
+<div class"class" align="center">
+<h1>Bienvenu dans  Vidéo center</h1>
+
+<br>
+{% endif %}
+{%  else %}
+<div class"class" align="center">
+<h1>Bienvenu dans  Vidéo center</h1>
+
+</div>
+ 
+ {% endif %}
+{% if app.user and app.user.isVerified %}
  {% include "components/_search_data.html.twig" with {
-                form: form
-               }
-               only %}
+        form: form
+    } only %}
+    {% endif %}
+    <p class="text-white">
+    {% if search == true %}
+    {{ nbrevideos }}
+    vidéo(s) trouvée(s) avec le terme
+    {{ searchData }}
+    {% endif %}
+    </p>
 
         <div class = "container text-center">
     <div class = "row">
          {% for video in pagination %}
+         {% if video.isPremiumVideo %}
+        {% if app.user and app.user.isVerified %}
+
+               <article class = "col-4">
+                        <h3>{{ video.title|u.truncate(20,'...',false)}}</h5>
+                     <iframe width="300" height="200" src={{video.videoLink}}></iframe>
+                    
+                        <h5>{{ video.description|u.truncate(15,'...',false) }}</h5>
+                        
+                        <h5 >{{ video.isPremiumVideo ? 'Vidéo Premium' : ''}}</h5>
+                        </p>
+                        <p> Par {{ video.createdAt|ago }} par {{ video.user.firstname }} {{video.user.lastname }}</p> 
+
+                         <a href="{{ path('app_video_show', {'id': video.id}) }}">Détails</a>
+                        {% endif %}
+                        {% else %}
+                         </article>
          <article class = "col-4">
             <h3><a href={{ path('app_video_show', {id: video.id}) }}>{{ video.title|u.truncate(30,'...',false) }}</a></h3>
              <iframe width="300" height="200" src={{video.videoLink}}></iframe>
             <h5>{{ video.description|u.truncate(15,'...',false) }}</h5>
+            <p className="card-text">
+                        <h5 {{ video.isPremiumVideo ? 'Vidéo Premium' : ''}}</h5>
+                        </p>
             <p>Submitted {{ video.createdAt|ago }}
             <p>Dernière Modification: {{ video.updatedAt|date("d/m/y H:i") }}</p>
             <p>By {{ video.user.firstname ~ ' ' ~ video.user.lastname }}
+            {% endif %}
             {% if app.user %}
             {% if app.user.isVerified %}
             <a href="{{ path('app_video_show', {'id': video.id}) }}">Afficher</a>
@@ -34,9 +77,20 @@
 	</div>
     </div>
     
-
+{% if app.user %}
+{% if app.user.isVerified %} 
+<div class"class" align="center">
+<a class="btn btn-primary" href="{{ path('app_video_new') }}">Nouvelle Vidéo</a>
+<a class="btn btn-outline-secondary" href="{{path('app_account') }}" role="button">Mon profil</a>
+<a class="btn btn-outline-primary" href="{{path('app_logout')}}" role="button">Se déconnecter</a>
+</div>
+<br>
+{% endif %}
+ {% endif %}
     <div class="mb-5 mt-5" id="addvideo">
-         <a class="btn btn-primary" href="{{ path('app_video_new') }}">Create new</a>
+         
+         <a class="btn btn-outline-secondary" href="{{path('app_register') }}" role="button">Créer un compte</a>
+         <a class="btn btn-outline-primary" href="{{path('app_login')}}" role="button">Se connecter</a>
     </div>
       {{ knp_pagination_render(pagination, null, {}, {
    'align': 'center',
